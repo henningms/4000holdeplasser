@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Holdeplasser.Portable", "4000holdeplasser.Portable\Holdeplasser.Portable.csproj", "{D6D64FA1-E410-4477-A0EF-5836639B4FFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Holdeplasser.Portable.ApiTests", "Holdeplasser.Portable.ApiTests\Holdeplasser.Portable.ApiTests.csproj", "{4A3D7994-7114-42D4-B5BD-0B7E427C79FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D6D64FA1-E410-4477-A0EF-5836639B4FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D64FA1-E410-4477-A0EF-5836639B4FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D64FA1-E410-4477-A0EF-5836639B4FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A3D7994-7114-42D4-B5BD-0B7E427C79FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3D7994-7114-42D4-B5BD-0B7E427C79FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3D7994-7114-42D4-B5BD-0B7E427C79FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3D7994-7114-42D4-B5BD-0B7E427C79FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

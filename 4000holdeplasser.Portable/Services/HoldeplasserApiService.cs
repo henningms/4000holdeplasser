@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,34 +16,21 @@ namespace Holdeplasser.Portable.Services
     public class HoldeplasserApiService
     {
         #region Tips
-        public static async Task<TipsResult> SearchTipsAsync(int tipsToRetrieve = 20, int pageOffset = 0, string searchQuery = null)
+        public static async Task<TipsResult> SearchTipsAsync(int tipsToRetrieve = 20, int pageOffset = 0, string searchQuery = null, long? tagId = null )
         {
             var httpClient = BuildHttpClient();
-
             var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/search/?take={0}&offset={1}",
                 tipsToRetrieve, pageOffset);
 
-            try
+            if (!String.IsNullOrEmpty(searchQuery))
             {
-                var responseAsString = await httpClient.GetStringAsync(apiUrl);
-
-                var tipsResult = JsonConvert.DeserializeObject<TipsResult>(responseAsString);
-
-                return tipsResult;
+                apiUrl += String.Format("&query={0}", searchQuery);
             }
-            catch (Exception ex)
+
+            if (tagId != null)
             {
-                Debug.WriteLine("SearchTripsAsync: " + ex.Message);
-                return null;
+                apiUrl += String.Format("&tagId={0}", tagId);
             }
-        }
-
-        public static async Task<TipsResult> SearchTipsAsync(string searchQuery, int tipsToRetrieve = 20, int pageOffset = 0)
-        {
-            var httpClient = BuildHttpClient();
-
-            var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/search/?take={0}&offset={1}&query={2}",
-                tipsToRetrieve, pageOffset, searchQuery);
 
             try
             {
@@ -54,51 +42,7 @@ namespace Holdeplasser.Portable.Services
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("SearchTripsAsync: " + ex.Message);
-                return null;
-            }
-        }
-
-        public static async Task<TipsResult> SearchTipsAsync(string searchQuery, long tagId, int tipsToRetrieve = 20, int pageOffset = 0)
-        {
-            var httpClient = BuildHttpClient();
-
-            var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/search/?take={0}&offset={1}&query={2}&tagId={3}",
-                tipsToRetrieve, pageOffset, searchQuery, tagId);
-
-            try
-            {
-                var responseAsString = await httpClient.GetStringAsync(apiUrl);
-
-                var tipsResult = JsonConvert.DeserializeObject<TipsResult>(responseAsString);
-
-                return tipsResult;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("SearchTripsAsync: " + ex.Message);
-                return null;
-            }
-        }
-
-        public static async Task<TipsResult> SearchTipsAsync(long tagId, int tipsToRetrieve = 20, int pageOffset = 0)
-        {
-            var httpClient = BuildHttpClient();
-
-            var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/search/?take={0}&offset={1}&tagId={2}",
-                tipsToRetrieve, pageOffset, tagId);
-
-            try
-            {
-                var responseAsString = await httpClient.GetStringAsync(apiUrl);
-
-                var tipsResult = JsonConvert.DeserializeObject<TipsResult>(responseAsString);
-
-                return tipsResult;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("SearchTripsAsync: " + ex.Message);
+                Debug.WriteLine("SearchTipsAsync: " + ex.Message);
                 return null;
             }
         }
@@ -107,7 +51,7 @@ namespace Holdeplasser.Portable.Services
         {
             var httpClient = BuildHttpClient();
 
-            var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/{0}/?take={1}&offset={0}", stopId,
+            var apiUrl = String.Format("https://4000holdeplasser.no/api/tips/{0}/?take={1}&offset={2}", stopId,
                 tipsToRetrieve, pageOffset);
 
             try
@@ -137,8 +81,12 @@ namespace Holdeplasser.Portable.Services
         {
             var httpClient = BuildHttpClient();
 
+            var cultureInfo = new CultureInfo("en-US");
+
             var apiUrl = String.Format("https://4000holdeplasser.no/api/stops/getStopsByArea/{0}/{1}/{2}/{3}",
-                latitudeMaximum, longitudeMaximum, latitudeMinimum, longitudeMinimum);
+                latitudeMaximum.ToString(cultureInfo), longitudeMaximum.ToString(cultureInfo), latitudeMinimum.ToString(cultureInfo), longitudeMinimum.ToString(cultureInfo));
+
+            Debug.WriteLine(apiUrl);
 
             try
             {
